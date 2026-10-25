@@ -1,0 +1,27 @@
+services:
+  app:
+    build: .
+    container_name: lti-trainer
+    restart: unless-stopped
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+    networks:
+      - default
+      - signal-tls-proxy_default
+
+  mongo:
+    image: mongo:8.0
+    container_name: lti-trainer-mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - default
+
+networks:
+  signal-tls-proxy_default:
+    external: true
+
+volumes:
+  mongo-data:
